@@ -13,3 +13,9 @@ n
 n
 r apache2config
 }' /etc/apache2/apache2.conf
+
+sed -i '/AddOutputFilterByType DEFLATE application\/xml/r deflateconfig' /etc/apache2/mods-available/deflate.conf
+
+sed -i '/AddType application\/x-gzip .tgz/r mimeconfig' /etc/apache2/mods-available/mime.conf
+
+sed -i '$r logrotateconfig' /etc/logrotate.d/apache2
