@@ -1,3 +1,6 @@
+# Author: Paul Lee
+# Company: Lyquix
+
 FROM ubuntu:18.04
 
 RUN apt-get update && apt-get upgrade -y
@@ -24,14 +27,18 @@ RUN for PCKG in "${PCKGS[@]}" \
     done
 
 # NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN apt-get -y install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - && \
+    apt-get -y install nodejs
 
 # www-data user
-RUN mkdir /var/www
-RUN chown -R www-data:www-data /var/www
-RUN chsh -s /bin/bash www-data
+RUN mkdir /var/www && \
+    chown -R www-data:www-data /var/www && \
+    chsh -s /bin/bash www-data
 
 # Apache configuration
 RUN a2enmod expires headers rewrite ssl suphp mpm_prefork security2
 
+COPY ./bin/apache/apache2config .
+COPY ./bin/apache/configuration.sh .
+
+RUN ./configuration.sh
