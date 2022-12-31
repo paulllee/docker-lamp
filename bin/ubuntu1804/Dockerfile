@@ -1,5 +1,3 @@
-# FOR UBUNTU 18.04
-
 # Author: Paul Lee
 # Company: Lyquix
 
