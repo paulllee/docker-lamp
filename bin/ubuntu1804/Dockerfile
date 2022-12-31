@@ -64,6 +64,8 @@ RUN sed -i 's/output_buffering = 4096/output_buffering = Off/' /etc/php/7.2/apac
     sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php/7.2/apache2/php.ini && \
     sed -i 's/Require all denied/Require all granted/g' /etc/apache2/mods-available/php7.2.conf
 
+RUN service apache2 restart
+
 # ports for container to listen
 EXPOSE 80
 EXPOSE 443
