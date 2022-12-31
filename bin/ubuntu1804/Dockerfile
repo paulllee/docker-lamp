@@ -68,4 +68,3 @@ RUN service apache2 restart
 
 # ports for container to listen
 EXPOSE 80
-EXPOSE 443
