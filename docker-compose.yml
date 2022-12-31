@@ -2,7 +2,7 @@ version: '3'
 services:
   local:
     build: './bin/ubuntu${UBUNTU_VERSION}/Dockerfile'
-    container-name: '${DOMAIN_NAME}-local'
+    container_name: '${DOMAIN_NAME}-local'
     volumes:
       - './data/www:/srv/www'
     ports:
