@@ -38,12 +38,12 @@ RUN mkdir /var/www && \
 # Apache configuration
 RUN a2enmod expires headers rewrite ssl suphp mpm_prefork security2
 
-COPY ./bin/apache/apache2config .
-COPY ./bin/apache/deflateconfig .
-COPY ./bin/apache/mimeconfig .
-COPY ./bin/apache/dir.conf /etc/apache2/mods-available/dir.conf
-COPY ./bin/apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
-COPY ./bin/apache/configuration.sh .
+COPY ../apache/apache2config .
+COPY ../apache/deflateconfig .
+COPY ../apache/mimeconfig .
+COPY ../apache/dir.conf /etc/apache2/mods-available/dir.conf
+COPY ../apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+COPY ../apache/configuration.sh .
 
 RUN ./configuration.sh
 
