@@ -6,7 +6,7 @@ FROM ubuntu:18.04
 RUN apt-get update && apt-get upgrade -y
 
 # Utilities
-RUN PCKGS=("curl" "vim" "openssl" "git" "htop" "nload" "mytop" "nethogs" "zip" "unzip" "sendmail" "sendmail-bin" "libcurl3-openssl-dev" "psmisc" "build-essential" "zlib1g-dev" "libpcre3" "libpcre3-dev" "memcached" "fail2ban" "iptables-persistent" "software-properties-common")
+RUN PCKGS=("curl" "sed" "vim" "openssl" "git" "htop" "nload" "mytop" "nethogs" "zip" "unzip" "sendmail" "sendmail-bin" "libcurl3-openssl-dev" "psmisc" "build-essential" "zlib1g-dev" "libpcre3" "libpcre3-dev" "memcached" "fail2ban" "iptables-persistent" "software-properties-common")
 RUN for PCKG in "${PCKGS[@]}" \
     do \
 	    apt-get -y install ${PCKG} \
