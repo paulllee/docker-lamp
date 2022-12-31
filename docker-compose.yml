@@ -50,3 +50,4 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3002:80"
+    restart: always
