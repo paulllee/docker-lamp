@@ -39,7 +39,7 @@ services:
     restart: always
   phpmyadmin:
     image: phpmyadmin
-    container_name: "${DOMAIN_NAME}-phpmyadmin"
+    container_name: ${DOMAIN_NAME}-phpmyadmin
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
@@ -49,5 +49,5 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3002:80"
+      - 3002:80
     restart: always
