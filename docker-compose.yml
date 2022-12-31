@@ -1,0 +1,52 @@
+# Author: Paul Lee
+# Company: Lyquix
+
+version: "3"
+
+services:
+  local:
+    build: ./bin/ubuntu${UBUNTU_VERSION}/Dockerfile
+    container-name: ${DOMAIN_NAME}-local
+    volumes:
+      - ./data/www:/srv/www
+    ports:
+      - 80:80
+    restart: always
+  mysql:
+    build: ./bin/mysql${MYSQL_VERSION}/Dockerfile
+    container_name: ${DOMAIN_NAME}-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE: ${MYSQL_DATABASE}
+      - MYSQL_USER: ${MYSQL_USER}
+      - MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: always
+  srdb:
+    image: kgaut/docker-search-replace-db
+    container_name: ${DOMAIN_NAME}-srdb
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: ${MYSQL_USER}
+      DB_PASS: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+    ports:
+      - 3001:80
+    restart: always
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: "${DOMAIN_NAME}-phpmyadmin"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3002:80"
