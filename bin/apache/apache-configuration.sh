@@ -19,13 +19,3 @@ sed -i '/AddOutputFilterByType DEFLATE application\/xml/r deflateconfig' /etc/ap
 sed -i '/AddType application\/x-gzip .tgz/r mimeconfig' /etc/apache2/mods-available/mime.conf
 
 sed -i '$r logrotateconfig' /etc/logrotate.d/apache2
-
-# installing ModPagespeed
-curl -O https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb
-dpkg -i mod-pagespeed*.deb
-rm mod-pagespeed*.deb
-apt-get -f install
-
-sed -i 's/ModPagespeed on/ModPagespeed off/' /etc/apache2/mods-available/pagespeed.conf
-
-service apache2 restart
