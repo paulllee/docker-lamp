@@ -3,6 +3,7 @@
 # Author: Paul Lee
 # Company: Lyquix
 
+# editing the config files
 sed -i 's/Timeout 300/Timeout 60/' /etc/apache2/apache2.conf
 sed -i 's/MaxKeepAliveRequests 100/MaxKeepAliveRequests 0/' /etc/apache2/apache2.conf
 sed -i '/<Directory \/srv\/>/{
@@ -19,3 +20,8 @@ sed -i '/AddOutputFilterByType DEFLATE application\/xml/r deflateconfig' /etc/ap
 sed -i '/AddType application\/x-gzip .tgz/r mimeconfig' /etc/apache2/mods-available/mime.conf
 
 sed -i '$r logrotateconfig' /etc/logrotate.d/apache2
+
+sed -i 's/ModPagespeed on/ModPagespeed off/' /etc/apache2/mods-available/pagespeed.conf
+
+# removing temp files
+rm *config
