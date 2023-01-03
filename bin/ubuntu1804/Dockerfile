@@ -1,10 +1,10 @@
-# Author: Paul Lee
-# Company: Lyquix
-
+# base image of ubuntu version 18.04 
 FROM ubuntu:18.04
-LABEL author="Paul Lee @ Lyquix"
+LABEL author="Paul Lee"
+LABEL company="Lyquix"
 
-RUN apt-get update -y
+# setting the current working directory
+WORKDIR /installation
 
 # disables any interactive installation prompts
 ENV DEBIAN_FRONTEND='noninteractive'
@@ -15,15 +15,9 @@ RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y curl git zip unzip libcurl3-openssl-dev zlib1g-dev libpcre3 libpcre3-dev memcached
 
-# Apache
-RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y \
-    apache2 \
-    apache2-doc \
-    apachetop \
-    libapache2-mod-php \
-    libapache2-mod-fcgid \
-    apache2-suexec-pristine \
-    libapache2-mod-security2 
+# Apache Installation
+# optional pckgs: apache2-doc apachetop
+RUN apt-get install -y apache2 libapache2-mod-php libapache2-mod-fcgid apache2-suexec-pristine libapache2-mod-security2
 
 # PHP
 RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y \
