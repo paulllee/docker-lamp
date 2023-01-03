@@ -24,7 +24,8 @@ services:
       MYSQL_USER: '${MYSQL_USER}'
       MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
     volumes:
-      - './data/mysql:/var/lib/mysql'
+      - './data/mysql:/var/lib/mysql' # persisting db data
+      - './data/mysql-dump:/docker-entrypoint-initdb.d' # to import mysqldump
     ports:
       - '3306:3306'
     restart: always
