@@ -6,27 +6,14 @@ LABEL author="Paul Lee @ Lyquix"
 
 RUN apt-get update -y
 
-# Utilities
-RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y \
-    curl \ 
-    vim \
-    openssl \
-    git \
-    htop \
-    nload \
-    mytop \
-    nethogs \
-    zip \
-    unzip \
-    libcurl3-openssl-dev \
-    psmisc \
-    build-essential \
-    zlib1g-dev \
-    libpcre3 \
-    libpcre3-dev \
-    memcached \
-    iptables-persistent \
-    software-properties-common
+# disables any interactive installation prompts
+ENV DEBIAN_FRONTEND='noninteractive'
+
+# Updates & Installing Necessary Utilities
+# optional pckgs: vim openssl htop nload mytop nethogs sendmail sendmail-bin libcurl3-openssl-dev psmisc build-essential iptables-persistent software-properties-common
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y curl git zip unzip libcurl3-openssl-dev zlib1g-dev libpcre3 libpcre3-dev memcached
 
 # Apache
 RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y \
