@@ -3,13 +3,10 @@
 
 FROM mysql:5.7.40
 
-RUN apt-get -y install sed
-
-RUN sed -i 's/#table_open_cache/table_open_cache/' /etc/mysql/mysql.conf.d/mysqld.cnf && \
-    sed -i 's/#slow_query_log/slow_query_log/' /etc/mysql/mysql.conf.d/mysqld.cnf && \
-    sed -i 's/#slow_query_log_file/slow_query_log_file/' /etc/mysql/mysql.conf.d/mysqld.cnf && \
-    sed -i 's/#long_query_time = 2/long_query_time = 1/' /etc/mysql/mysql.conf.d/mysqld.cnf
-
-RUN service mysql restart
-
-EXPOSE 3306
+RUN sed -i 's/\[mysqld\]/\[mysqld\]\nkey_buffer_size = 16M/' /etc/my.cnf; \
+    sed -i 's/\[mysqld\]/\[mysqld\]\nmax_allowed_packet = 16M/' /etc/my.cnf; \
+    sed -i 's/\[mysqld\]/\[mysqld\]\nthread_stack = 192K/' /etc/my.cnf; \
+    sed -i 's/\[mysqld\]/\[mysqld\]\nthread_cache_size = 8/' /etc/my.cnf; \
+    sed -i 's/\[mysqld\]/\[mysqld\]\ntable_open_cache = 64/' /etc/my.cnf; \
+    sed -i 's/\[mysqld\]/\[mysqld\]\nslow_query_log_file = \/var\/log\/mysql\/mysql-slow.log/' /etc/my.cnf; \
+    sed -i 's/\[mysqld\]/\[mysqld\]\nlong_query_time = 1/' /etc/my.cnf
