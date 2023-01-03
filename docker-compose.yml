@@ -1,7 +1,12 @@
+# Author: Paul Lee
+# Company: Lyquix
+
 version: '3'
 services:
   local:
-    build: './bin/ubuntu${UBUNTU_VERSION}/Dockerfile'
+    build:
+      context: ./bin
+      dockerfile: './ubuntu${UBUNTU_VERSION}/Dockerfile'
     container_name: '${DOMAIN_NAME}-local'
     volumes:
       - './data/www:/srv/www'
@@ -9,7 +14,9 @@ services:
       - '80:80'
     restart: always
   mysql:
-    build: './bin/mysql${MYSQL_VERSION}/Dockerfile'
+    build:
+      context: ./bin
+      dockerfile: './mysql${MYSQL_VERSION}/Dockerfile'
     container_name: '${DOMAIN_NAME}-mysql'
     environment:
       MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
