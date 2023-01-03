@@ -1,0 +1,8 @@
+# Author: Paul Lee
+# Company: Lyquix
+
+# Environmental Keys
+.env
+
+# All of the Website Data
+data/*
