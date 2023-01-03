@@ -9,85 +9,80 @@ WORKDIR /installation
 # disables any interactive installation prompts
 ENV DEBIAN_FRONTEND='noninteractive'
 
-# Updates & Installing Necessary Utilities
+# Utilities installation
 # optional pckgs: vim openssl htop nload mytop nethogs sendmail sendmail-bin libcurl3-openssl-dev psmisc build-essential iptables-persistent software-properties-common
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y curl git zip unzip libcurl3-openssl-dev zlib1g-dev libpcre3 libpcre3-dev memcached
 
-# Apache Installation
+# Apache installation
 # optional pckgs: apache2-doc apachetop
 RUN apt-get install -y apache2 libapache2-mod-php libapache2-mod-fcgid apache2-suexec-pristine libapache2-mod-security2
 
-# PHP Installation
+# PHP installation
 # pckgs that broke: php-auth php-mcrypt
 RUN apt-get install -y mcrypt imagemagick php7.2 php7.2-common php7.2-gd php7.2-imap php7.2-mysql php7.2-mysqli php7.2-cli php7.2-cgi php7.2-zip php-pear php-imagick \
     php7.2-curl php7.2-mbstring php7.2-bcmath php7.2-xml php7.2-soap php7.2-opcache php7.2-intl php-apcu php-mail php-mail-mime php-all-dev php7.2-dev libapache2-mod-php7.2 \
     php7.2-memcached composer 
 
-# NodeJS
+# NodeJS installation
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install -y nodejs
+
+# ModPagespeed installation
+RUN curl -O https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb && \
+    dpkg -i mod-pagespeed*.deb && \
+    rm mod-pagespeed*.deb && \
+    apt-get -f install
+
+# Apache configuration
+# copying all the necessary files for configuration
+COPY ./apache/installation /installation
+
+COPY ./apache/conf/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./apache/conf/dir.conf /etc/apache2/mods-available/dir.conf
+COPY ./apache/conf/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
 
 # www-data user
 RUN mkdir /var/www; \
     chown -R www-data:www-data /var/www; \
     chsh -s /bin/bash www-data
 
-# Apache configuration
-RUN a2enmod expires; \ 
-    a2enmod headers; \
-    a2enmod rewrite; \
-    a2enmod ssl; \
+# creating srv/www directory
+RUN mkdir -p /srv/www/public_html; \
+    mkdir -p /srv/www/logs; \
+    mkdir -p /srv/www/ssl; \
+    chown -R www-data:www-data /srv/www
+
+# enabling modules
+RUN a2enmod expires; \    
+    a2enmod headers; \ 
+    a2enmod rewrite; \ 
+    a2enmod ssl; \ 
     a2enmod suphp; \  
     a2enmod mpm_prefork; \ 
     a2enmod security2
 
-RUN service apache2 restart
-
-COPY ./apache/apache2config .
-COPY ./apache/deflateconfig .
-COPY ./apache/logrotateconfig .
-COPY ./apache/mimeconfig .
-
-COPY ./apache/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./apache/dir.conf /etc/apache2/mods-available/dir.conf
-COPY ./apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
-
-COPY ./apache/apache-configuration.sh .
-
+# setting permissions for script
+RUN chmod 777 apache-configuration.sh
 RUN bash apache-configuration.sh
-
-RUN rm *config && \
-    rm apache-configuration.sh
-
-# installing ModPagespeed
-RUN curl -O https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb && \
-    dpkg -i mod-pagespeed*.deb && \
-    rm mod-pagespeed*.deb && \
-    apt-get -f install
-
-RUN sed -i 's/ModPagespeed on/ModPagespeed off/' /etc/apache2/mods-available/pagespeed.conf
-
-RUN mkdir -p /srv/www/public_html && \
-    mkdir -p /srv/www/logs && \
-    mkdir -p /srv/www/ssl && \
-    chown -R www-data:www-data /srv/www
 
 RUN service apache2 restart
 
 # PHP configuration
-RUN sed -i 's/output_buffering = 4096/output_buffering = Off/' /etc/php/7.2/apache2/php.ini; \
-    sed -i 's/max_execution_time = 30/max_execution_time = 60/' /etc/php/7.2/apache2/php.ini; \
-	sed -i 's/; max_input_vars = 1000/max_input_vars = 5000/' /etc/php/7.2/apache2/php.ini; \
-    sed -i 's/memory_limit = 128M/memory_limit = 256M/' /etc/php/7.2/apache2/php.ini; \
-    sed -i 's/error_reporting = E_ALL \& \~E_DEPRECATED \& \~E_STRICT/error_reporting = E_ALL \& \~E_NOTICE \& \~E_STRICT \& \~E_DEPRECATED/' /etc/php/7.2/apache2/php.ini; \
-    sed -i 's/post_max_size = 8M/post_max_size = 20M/' /etc/php/7.2/apache2/php.ini; \
-    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php/7.2/apache2/php.ini; \
-    sed -i 's/Require all denied/Require all granted/g' /etc/apache2/mods-available/php7.2.conf
+# copying all the necessary files for configuration
+COPY ./php/php72-configuration.sh /installation/php72-configuration.sh
+
+# setting permissions for script
+RUN chmod 777 php72-configuration.sh
+RUN bash php72-configuration.sh
 
 # ports for container to listen
 EXPOSE 80
 
-# start apache service
-CMD ["apachectl", "-D", "FOREGROUND"]
+# copying run bash script
+WORKDIR /
+COPY ./ubuntu1804/run.sh .
+RUN chmod 777 run.sh
+
+ENTRYPOINT [ "/run.sh" ]
