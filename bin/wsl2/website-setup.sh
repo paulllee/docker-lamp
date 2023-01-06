@@ -82,7 +82,8 @@ sed -i "s/MYSQL_VERSION=57/MYSQL_VERSION=$MYSQL_VERSION/" $WORK_DIR/.env
 rm $WORK_DIR/data/www/public_html/.gitkeep
 
 echo ''
-echo "First, run this command in Powershell or Terminal (you only have to do this once, if you already did it in the past, SKIP): git config --global --add safe.directory '*'"
+echo "First, run this command in PowerShell or Terminal (if you already did this in the past, SKIP command): git config --global --add safe.directory '*'"
+echo ''
 echo "Next: open up SourceTree and clone the $WEBSITE_DOMAIN_NAME repo (development branch) into the \\\\wsl\$\\Ubuntu\\home\\ubuntu\\docker-lamp\\$WEBSITE_DOMAIN_NAME\\data\\www\\public_html directory"
 echo ''
 echo 'When you are done press Enter'
@@ -110,45 +111,6 @@ then
 			USER_VERIFIED=NO
 		fi
     done
-
-    # asking for MySQL credentials
-    USER_VERIFIED=NO
-    while [ "$USER_VERIFIED" != 'YES' ]
-    do
-        echo ''
-        echo "Type in the MySQL database root password for $WEBSITE_DOMAIN_NAME:"
-        read DATABASE_ROOT_PASS
-
-        echo ''
-        echo "Type in the MySQL database name for $WEBSITE_DOMAIN_NAME:"
-        read DATABASE_NAME
-
-        echo ''
-        echo "Type in the MySQL database username for $WEBSITE_DOMAIN_NAME:"
-        read DATABASE_USER
-
-        echo ''
-        echo "Type in the MySQL database password for $WEBSITE_DOMAIN_NAME:"
-        read DATABASE_PASS
-
-        echo ''
-		echo "DATABASE ROOT PASSWORD=$DATABASE_ROOT_PASS"
-        echo "DATABASE NAME=$DATABASE_NAME"
-        echo "DATABASE USERNAME=$DATABASE_USER"
-        echo "DATABASE PASSWORD=$DATABASE_PASS"
-        echo 'Are the credentials above correct? YES or NO (case sensitive):'
-        read USER_VERIFIED
-        if [ "$USER_VERIFIED" == '' ]
-        then
-            USER_VERIFIED=NO
-        fi
-    done
-
-	# change mysql credentials in env keys
-	sed -i "s/'root_password_is_kept_in_single_quotes'/'$DATABASE_ROOT_PASS'/" $WORK_DIR/.env
-	sed -i "s/database_name/$DATABASE_NAME/" $WORK_DIR/.env
-	sed -i "s/user_name/$DATABASE_USER/" $WORK_DIR/.env
-	sed -i "s/'database_password_is_kept_in_single_quotes'/'$DATABASE_PASS'/" $WORK_DIR/.env
 
 	# SSH for MySQL dump
     echo ''
@@ -190,19 +152,23 @@ then
 
     if [ "$CMS_TYPE" == 'WORDPRESS' ]
     then
-		# docker container uses mysql as hostname
-		sed -i 's/localhost/mysql/' wp-config.php
-
+		# change necessary details to connect to mysql
+        sed -i "s/'DB_NAME'.*/'DB_NAME', 'ubuntu');/" wp-config.php
+        sed -i "s/'DB_USER'.*/'DB_USER', 'ubuntu');/" wp-config.php
+        sed -i "s/'DB_PASSWORD'.*/'DB_PASSWORD', 'ubuntu');/" wp-config.php
+        sed -i "s/'DB_HOST'.*/'DB_HOST', 'mysql');/" wp-config.php
     elif [ "$CMS_TYPE" == 'JOOMLA' ]
     then
-		# docker container uses mysql as hostname
-        sed -i "s/host = 'localhost'/host = 'mysql'/" configuration.php
+		# change necessary details to connect to mysql
+        sed -i "s/host =.*/host = 'mysql'/" configuration.php
+        sed -i "s/user =.*/user = 'ubuntu'/" configuration.php
+        sed -i "s/password =.*/password = 'ubuntu'/" configuration.php
+        sed -i "s/db =.*/db = 'ubuntu'/" configuration.php
 
         # replacing all dev. addresses to test addresses
         sed -i "s/$WEBSITE_SUBDOMAIN_NAME$WEBSITE_ADDRESS/localhost/g" configuration.php
         # disabling ssl
-        sed -i "s/force_ssl = '1'/force_ssl = '0'/" configuration.php
-        sed -i "s/force_ssl = '2'/force_ssl = '0'/" configuration.php
+        sed -i "s/force_ssl =.*/force_ssl = '0';/" configuration.php
         # cookie domain to test address
         sed -i "s/cookie_domain = '$WEBSITE_SUBDOMAIN_NAME$WEBSITE_ADDRESS'/cookie_domain = 'localhost'/" configuration.php
     fi
