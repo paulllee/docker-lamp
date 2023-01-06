@@ -106,7 +106,7 @@ then
     while [ "$USER_VERIFIED" != 'YES' ]
     do
         echo ''
-        echo "Type in the MySQL database password for $WEBSITE_DOMAIN_NAME:"
+        echo "Type in the MySQL database root password for $WEBSITE_DOMAIN_NAME:"
         read DATABASE_ROOT_PASS
 
         echo ''
