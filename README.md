@@ -65,3 +65,11 @@ sudo bash website-setup.sh
 **IMPORTANT:** The very first build of a container will take at least 350 seconds but future builds will take only seconds since they cache the build steps from the first time.
 
 You can now use the Docker Desktop GUI in Windows to stop and start containers in the `Containers` tab. You **MUST** run one container at a time.
+
+# Issues
+
+For any questions or issues, just plop them into the `Issues` tab!
+
+# License
+
+Distributed under the GNU General Public License v3.0. See LICENSE for more information.
