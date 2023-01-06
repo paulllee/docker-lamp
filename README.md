@@ -64,6 +64,13 @@ sudo bash website-setup.sh
 
 **IMPORTANT:** The very first build of a container will take at least 350 seconds but future builds will take only seconds since they cache the build steps from the first time.
 
+**IMPORTANT:** AFTER the image is built and the container has started *WordPress* sites need an extra few steps detailed below:
+
+1. Go to SRDB ([localhost:3001](http://localhost:3001/)) and change all instances of the url for dev for the test url and protocol
+for example (do these separately)
+   - dev.domain.com → localhost
+   - https://localhost → http://localhost
+
 You can now use the Docker Desktop GUI in Windows to stop and start containers in the `Containers` tab. You **MUST** run one container at a time.
 
 To access the site, it is pointed to: [localhost](http://localhost/)
