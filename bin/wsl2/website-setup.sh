@@ -78,6 +78,13 @@ sed -i "s/DOMAIN_NAME=lyquix/DOMAIN_NAME=$WEBSITE_DOMAIN_NAME/" $WORK_DIR/.env
 sed -i "s/UBUNTU_VERSION=1804/UBUNTU_VERSION=$UBUNTU_VERSION/" $WORK_DIR/.env
 sed -i "s/MYSQL_VERSION=57/MYSQL_VERSION=$MYSQL_VERSION/" $WORK_DIR/.env
 
+# SourceTree to clone repo
+echo ''
+echo "Next: open up SourceTree and clone the $WEBSITE_DOMAIN_NAME repo (development branch) into the \\\\wsl\$\\Ubuntu\\home\\ubuntu\\docker-lamp\\$WEBSITE_DOMAIN_NAME\\data\\www\\public_html directory"
+echo ''
+echo 'When you are done press Enter'
+read USER_CHECKPOINT
+
 if [ "$HAS_DATABASE" == 'YES' ]
 then
     CMS_TYPE=NULL
