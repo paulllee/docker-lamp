@@ -64,7 +64,7 @@ RUN a2enmod expires; \
     a2enmod security2
 
 # setting permissions for script
-RUN chmod 777 apache-configuration.sh
+RUN chmod 755 apache-configuration.sh
 RUN bash apache-configuration.sh
 
 RUN service apache2 restart
@@ -74,7 +74,7 @@ RUN service apache2 restart
 COPY ./php/php72-configuration.sh /installation/php72-configuration.sh
 
 # setting permissions for script
-RUN chmod 777 php72-configuration.sh
+RUN chmod 755 php72-configuration.sh
 RUN bash php72-configuration.sh
 
 # ports for container to listen
@@ -83,6 +83,6 @@ EXPOSE 80
 # copying run bash script
 WORKDIR /
 COPY ./ubuntu1804/run.sh .
-RUN chmod 777 run.sh
+RUN chmod 755 run.sh
 
 ENTRYPOINT [ "/run.sh" ]
