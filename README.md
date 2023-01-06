@@ -50,7 +50,7 @@ sudo bash setup.sh
    - Resources -> WSL Integration -> `Enable integration with my default WSL distro`
      - You can also enable any distros under `Enable integration with additional distros:`
 
-# Installation of Containers and How to Run
+# Installation and How to Run
 
 1. Run the following commands in your Linux command line to download and run the website setup script!
 
