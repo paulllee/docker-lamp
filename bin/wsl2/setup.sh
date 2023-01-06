@@ -31,8 +31,12 @@ fi
 chown -R www-data:www-data /var/www
 chsh -s /bin/bash www-data
 
+#creating the docker-lamp directory
 mkdir /home/ubuntu/docker-lamp
 
 chown -R ubuntu:ubuntu /home/ubuntu/docker-lamp
 
+apt-get autoremove -y
+
 echo 'Finished script!'
+echo 'Continue the steps in the README.'
