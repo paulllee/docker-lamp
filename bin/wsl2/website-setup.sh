@@ -227,6 +227,8 @@ else
     read USER_CHECKPOINT
 fi
 
+chown -R ubuntu:ubuntu $WORK_DIR
+
 echo ''
 echo "The full website setup of $WEBSITE_DOMAIN_NAME is now complete!"
 echo "Go to the README for the final instructions."
