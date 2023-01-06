@@ -1,4 +1,3 @@
-
 			$curl = curl_init();
 			curl_setopt($curl, CURLOPT_URL, $script['url']);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
