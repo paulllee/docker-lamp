@@ -35,6 +35,9 @@ RUN curl -O https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_curre
     rm mod-pagespeed*.deb && \
     apt-get -f install
 
+# autoremove unnecessary packages
+RUN apt-get autoremove -y
+
 # Apache configuration
 # copying all the necessary files for configuration
 COPY ./apache/installation /installation
