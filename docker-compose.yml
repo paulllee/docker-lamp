@@ -35,9 +35,9 @@ services:
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_USER: '${MYSQL_USER}'
-      DB_PASS: '${MYSQL_PASSWORD}'
-      DB_NAME: '${MYSQL_DATABASE}'
+      DB_USER: 'ubuntu'
+      DB_PASS: 'ubuntu'
+      DB_NAME: 'ubuntu'
     ports:
       - '3001:80'
     restart: always
@@ -48,10 +48,10 @@ services:
       PMA_HOST: mysql
       PMA_PORT: 3306
       PMA_USER: root
-      PMA_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
-      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
-      MYSQL_USER: '${MYSQL_USER}'
-      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      PMA_PASSWORD: 'ubuntu'
+      MYSQL_ROOT_PASSWORD: 'ubuntu'
+      MYSQL_USER: 'ubuntu'
+      MYSQL_PASSWORD: 'ubuntu'
     ports:
       - '3002:80'
     restart: always
