@@ -79,6 +79,8 @@ To access SRDB, it is pointed to: [localhost:3001](http://localhost:3001/)
 
 To access phpMyAdmin, it is pointed to: [localhost:3002](http://localhost:3001/)
 
+**IMPORTANT:** MySQL root, database name, user name, and database password are defaulted to `ubuntu`
+
 # Issues
 
 For any questions or issues, just plop them into the `Issues` tab!
