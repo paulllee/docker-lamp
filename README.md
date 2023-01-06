@@ -39,7 +39,7 @@ I recommend a *clean install* for all the websites.
 
 ```
 cd
-curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/setup.sh -o setup.sh
+curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/setup.sh > setup.sh
 sudo bash setup.sh
 ```
 
@@ -56,7 +56,7 @@ sudo bash setup.sh
 
 ```
 cd
-curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/website-setup.sh -o website-setup.sh
+curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/website-setup.sh > website-setup.sh
 sudo bash website-setup.sh
 ```
 
