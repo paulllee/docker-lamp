@@ -60,7 +60,7 @@ curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/websit
 sudo bash website-setup.sh
 ```
 
-2. To build and run the container, run `cd /home/ubuntu/docker-lamp/DOMAIN_NAME` (change DOMAIN_NAME to the domain you just set up, ex: lyquix) and then run `docker-compose up -d`
+2. To build and run the container, run `cd /home/ubuntu/docker-lamp/DOMAIN_NAME` (change DOMAIN_NAME to the domain you just set up, ex: lyquix) and then run `sudo docker-compose up -d`
 
 **IMPORTANT:** The very first build of a container will take at least 350 seconds but future builds will take only seconds since they cache the build steps from the first time.
 
