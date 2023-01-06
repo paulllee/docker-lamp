@@ -82,6 +82,7 @@ sed -i "s/MYSQL_VERSION=57/MYSQL_VERSION=$MYSQL_VERSION/" $WORK_DIR/.env
 rm $WORK_DIR/data/www/public_html/.gitkeep
 
 echo ''
+echo '-----------------IMPORTANT-----------------'
 echo "First, run this command in PowerShell or Terminal (if you already did this in the past, SKIP command): git config --global --add safe.directory '*'"
 echo ''
 echo "Next: open up SourceTree and clone the $WEBSITE_DOMAIN_NAME repo (development branch) into the \\\\wsl\$\\Ubuntu\\home\\ubuntu\\docker-lamp\\$WEBSITE_DOMAIN_NAME\\data\\www\\public_html directory"
