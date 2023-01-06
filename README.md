@@ -66,6 +66,12 @@ sudo bash website-setup.sh
 
 You can now use the Docker Desktop GUI in Windows to stop and start containers in the `Containers` tab. You **MUST** run one container at a time.
 
+To access the site, it is pointed to: [localhost](http://localhost/)
+
+To access SRDB, it is pointed to: [localhost:3001](http://localhost:3001/)
+
+To access phpMyAdmin, it is pointed to: [localhost:3002](http://localhost:3001/)
+
 # Issues
 
 For any questions or issues, just plop them into the `Issues` tab!
