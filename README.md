@@ -30,10 +30,38 @@ I recommend a *clean install* for all the websites.
      - New password: `ubuntu`
      - Retype new password: `ubuntu`
 
-5. **Important:** Double check and make sure you are on WSL Version 2.
+5. **Important:** Double check and make sure you are on WSL Version 2 and that it is set as default.
      - To check, Open Windows Terminal (PowerShell or CMD) and run `wsl -l -v`
-       - Run `wsl --set-version Ubuntu-18.04 2` if Ubuntu 18.04 is not on Version 2
-       - Run `wsl --set-version Ubuntu-20.04 2` if Ubuntu 20.04 is not on Version 2
-       - Run `wsl --set-version Ubuntu-22.04 2` if Ubuntu 22.04 is not on Version 2
+       - Run `wsl --set-version Ubuntu 2` if Ubuntu is not on Version 2
+       - Run `wsl --set-default Ubuntu` if Ubuntu doesn't have an asterisk next to it
 
-The main site is pointed to localhost:80 or just localhost
+6. Run the following commands in your Linux command line to download and setup your WSL2 environment!
+
+```
+cd
+curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/setup.sh -o setup.sh
+sudo bash setup.sh
+```
+
+7. Install [Docker Desktop on Windows](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe) (make sure you enable WSL2 Backend during the installation, you can do it later in Settings as well)
+
+8. In the Settings, make sure these are enabled:
+   - General -> `Use the WSL 2 based engine`
+   - Resources -> WSL Integration -> `Enable integration with my default WSL distro`
+     - You can also enable any distros under `Enable integration with additional distros:`
+
+# Installation of Containers and How to Run
+
+1. Run the following commands in your Linux command line to download and run the website setup script!
+
+```
+cd
+curl https://raw.githubusercontent.com/paulllee/docker-lamp/main/bin/wsl2/website-setup.sh -o website-setup.sh
+sudo bash website-setup.sh
+```
+
+2. To build and run the container, run `cd /home/ubuntu/docker-lamp/DOMAIN_NAME` (change DOMAIN_NAME to the domain you just set up, ex: lyquix) and then run `docker-compose up -d`
+
+**IMPORTANT:** The very first build of a container will take at least 350 seconds but future builds will take only seconds since they cache the build steps from the first time.
+
+You can now use the Docker Desktop GUI in Windows to stop and start containers in the `Containers` tab. You **MUST** run one container at a time.
